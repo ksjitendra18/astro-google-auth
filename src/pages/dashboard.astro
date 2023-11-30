@@ -1,7 +1,15 @@
 ---
 import MainLayout from "../layout/main-layout.astro";
+import { getUserSession } from "../lib/auth/get-user-session";
+const session = getUserSession(Astro.request);
+
+if (!session) {
+  return Astro.redirect("/login");
+}
 ---
 
 <MainLayout title="Dashboard" description="dashboard page">
-  <h1 class="my-10 text-center">This is protected</h1>
+  <h1 class="my-10 text-xl font-bold text-center">This is protected page.</h1>
+
+  <p class="text-center my-5">Hello {session?.name ?? "user"}</p>
 </MainLayout>

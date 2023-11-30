@@ -1,5 +1,6 @@
 ---
-
+import { getUserSession } from "../lib/auth/get-user-session.ts";
+const session = getUserSession(Astro.request);
 ---
 
 <header class="px-12 py-5 flex justify-between">
@@ -9,9 +10,22 @@
       <li>
         <a href="/">Home</a>
       </li>
-      <li>
-        <a href="/login">Login</a>
-      </li>
+      {
+        session ? (
+          <>
+            <li>
+              <a href="/dashboard">Dashboard</a>
+            </li>
+            <li class="cursor-pointer">
+              <a href="/api/auth/logout">Logout</a>
+            </li>
+          </>
+        ) : (
+          <li>
+            <a href="/login">Login</a>
+          </li>
+        )
+      }
     </ul>
   </nav>
 </header>
